@@ -72,7 +72,7 @@ class DashboardController extends Controller
             'pkl_count' => Participant::where('program_type', 'PKL')->count(),
             'avg_daily_attendance' => $this->getAverageDailyAttendance(),
             'attendance_trend' => $this->getAttendanceTrend(),
-            'total_days' => $totalDays, // Tambahkan ini
+            'total_days' => $totalDays,
             'new_this_week' => Participant::where('created_at', '>=', Carbon::now()->startOfWeek())->count()
         ];
     }

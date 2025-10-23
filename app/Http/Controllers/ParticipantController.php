@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class ParticipantController extends Controller
@@ -44,6 +45,7 @@ class ParticipantController extends Controller
             'tanggal_lahir' => 'required|date',
             'tanggal_bergabung' => 'required|date',
             'program_type' => 'required|in:Magang,PKL',
+            'password' => 'nullable|string|min:6', // Tambahkan validasi password
             'gambar' => 'required|image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
@@ -60,6 +62,26 @@ class ParticipantController extends Controller
 
         // Generate barcode_id unik (sekarang untuk QR Code)
         $validated['barcode_id'] = $this->generateQrCodeId($validated['program_type']);
+
+        // Set password default dari NIM jika tidak diisi
+        if (empty($validated['password']) && !empty($validated['nim'])) {
+            $validated['password'] = Hash::make($validated['nim']);
+        } else if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
+        // Handle upload gambar
+        // if ($request->hasFile('gambar')) {
+        //     $imagePath = $request->file('gambar')->store('participants', 'public');
+        //     $validated['gambar'] = $imagePath;
+        // }
+
+        // Handle password update
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        } else {
+            unset($validated['password']); // Jangan update password jika kosong
+        }
 
         Participant::create($validated);
 

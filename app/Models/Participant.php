@@ -1,14 +1,14 @@
 <?php
-// app/Models/Participant.php
 
 namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
-class Participant extends Model
+class Participant extends Authenticatable
 {
     use HasFactory;
 
@@ -27,7 +27,12 @@ class Participant extends Model
         'department',
         'start_date',
         'end_date',
-        'is_active'
+        'is_active',
+        'password' // Tambahkan password
+    ];
+
+    protected $hidden = [
+        'password', // Sembunyikan password
     ];
 
     protected $appends = ['qr_code_url', 'umur', 'tanggal_lahir_formatted', 'tanggal_bergabung_formatted'];
@@ -112,6 +117,11 @@ class Participant extends Model
                 $tanggalPart = Carbon::parse($participant->tanggal_lahir)->format('dmY');
                 $participant->username = $namaPart . $tanggalPart;
             }
+
+            // Set password default dari NIM jika kosong
+            if (empty($participant->password) && $participant->nim) {
+                $participant->password = Hash::make($participant->nim);
+            }
         });
 
         static::updating(function ($participant) {
@@ -123,6 +133,19 @@ class Participant extends Model
                 $tanggalPart = Carbon::parse($participant->tanggal_lahir)->format('dmY');
                 $participant->username = $namaPart . $tanggalPart;
             }
+
+            // Hash password jika diupdate
+            if ($participant->isDirty('password') && $participant->password) {
+                $participant->password = Hash::make($participant->password);
+            }
         });
+    }
+
+    /**
+     * Validate password untuk login
+     */
+    public function validatePassword($password)
+    {
+        return Hash::check($password, $this->password);
     }
 }

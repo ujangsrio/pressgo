@@ -44,14 +44,14 @@ class AttendanceController extends Controller
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'Check out berhasil',
+                    'message' => 'Keluar berhasil',
                     'participant' => $participant,
                     'type' => 'check_out'
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Anda sudah melakukan check out hari ini'
+                    'message' => 'Anda sudah melakukan keluar hari ini'
                 ], 400);
             }
         } else {
@@ -66,7 +66,7 @@ class AttendanceController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Check in berhasil',
+                'message' => 'Masuk berhasil',
                 'participant' => $participant,
                 'type' => 'check_in',
                 'status' => $status
