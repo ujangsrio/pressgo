@@ -190,7 +190,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('participant.dashboard') }}">
+            <a class="navbar-brand fw-bold" href="<?php echo e(route('participant.dashboard')); ?>">
                 <i class="fas fa-qrcode me-2"></i>PressGO
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -199,26 +199,26 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('participant.dashboard') ? 'active' : '' }}" 
-                           href="{{ route('participant.dashboard') }}">
+                        <a class="nav-link <?php echo e(request()->routeIs('participant.dashboard') ? 'active' : ''); ?>" 
+                           href="<?php echo e(route('participant.dashboard')); ?>">
                             <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('participant.attendance.scan') ? 'active' : '' }}" 
-                           href="{{ route('participant.attendance.scan') }}">
+                        <a class="nav-link <?php echo e(request()->routeIs('participant.attendance.scan') ? 'active' : ''); ?>" 
+                           href="<?php echo e(route('participant.attendance.scan')); ?>">
                             <i class="fas fa-qrcode me-1"></i>Scan Absensi
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('participant.attendance.index') ? 'active' : '' }}" 
-                           href="{{ route('participant.attendance.index') }}">
+                        <a class="nav-link <?php echo e(request()->routeIs('participant.attendance.index') ? 'active' : ''); ?>" 
+                           href="<?php echo e(route('participant.attendance.index')); ?>">
                             <i class="fas fa-history me-1"></i>Riwayat Absensi
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('participant.settings.*') ? 'active' : '' }}" 
-                           href="{{ route('participant.settings.index') }}">
+                        <a class="nav-link <?php echo e(request()->routeIs('participant.settings.*') ? 'active' : ''); ?>" 
+                           href="<?php echo e(route('participant.settings.index')); ?>">
                             <i class="fas fa-cog me-1"></i>Pengaturan
                         </a>
                     </li>
@@ -227,42 +227,44 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                            <img src="{{ auth()->guard('participant')->user()->gambar_url }}" 
-                                 alt="{{ auth()->guard('participant')->user()->name }}" 
+                            <img src="<?php echo e(auth()->guard('participant')->user()->gambar_url); ?>" 
+                                 alt="<?php echo e(auth()->guard('participant')->user()->name); ?>" 
                                  class="user-avatar">
-                            <span>{{ auth()->guard('participant')->user()->name }}</span>
+                            <span><?php echo e(auth()->guard('participant')->user()->name); ?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a class="dropdown-item" href="{{ route('participant.dashboard') }}">
+                                <a class="dropdown-item" href="<?php echo e(route('participant.dashboard')); ?>">
                                     <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('participant.attendance.scan') }}">
+                                <a class="dropdown-item" href="<?php echo e(route('participant.attendance.scan')); ?>">
                                     <i class="fas fa-qrcode me-1"></i>Scan Absensi
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="{{ route('participant.settings.index') }}">
+                                <a class="dropdown-item" href="<?php echo e(route('participant.settings.index')); ?>">
                                     <i class="fas fa-cog me-1"></i>Pengaturan Akun
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="#">
-                                    <i class="fas fa-id-card me-1"></i>{{ auth()->guard('participant')->user()->nim }}
+                                    <i class="fas fa-id-card me-1"></i><?php echo e(auth()->guard('participant')->user()->nim); ?>
+
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#">
-                                    <i class="fas fa-graduation-cap me-1"></i>{{ auth()->guard('participant')->user()->program_type }}
+                                    <i class="fas fa-graduation-cap me-1"></i><?php echo e(auth()->guard('participant')->user()->program_type); ?>
+
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <form method="POST" action="{{ route('participant.logout') }}" id="participant-logout-form">
-                                    @csrf
+                                <form method="POST" action="<?php echo e(route('participant.logout')); ?>" id="participant-logout-form">
+                                    <?php echo csrf_field(); ?>
                                     <button type="submit" class="dropdown-item text-danger">
                                         <i class="fas fa-sign-out-alt me-1"></i>Logout
                                     </button>
@@ -289,7 +291,7 @@
                         <p class="text-white-50 mb-0">Arahkan kamera ke QR code untuk melakukan absensi</p>
                     </div>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('participant.dashboard') }}" class="btn btn-outline-light">
+                        <a href="<?php echo e(route('participant.dashboard')); ?>" class="btn btn-outline-light">
                             <i class="fas fa-arrow-left me-2"></i>
                             Kembali ke Dashboard
                         </a>
@@ -304,9 +306,9 @@
                 <div class="user-info">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h5 class="mb-1">{{ auth()->guard('participant')->user()->name }}</h5>
-                            <p class="mb-1">{{ auth()->guard('participant')->user()->nim }} • {{ auth()->guard('participant')->user()->program_type }}</p>
-                            <p class="mb-0">{{ auth()->guard('participant')->user()->institution }}</p>
+                            <h5 class="mb-1"><?php echo e(auth()->guard('participant')->user()->name); ?></h5>
+                            <p class="mb-1"><?php echo e(auth()->guard('participant')->user()->nim); ?> • <?php echo e(auth()->guard('participant')->user()->program_type); ?></p>
+                            <p class="mb-0"><?php echo e(auth()->guard('participant')->user()->institution); ?></p>
                         </div>
                         <div class="col-md-4 text-md-end">
                             <span class="badge bg-success fs-6">
@@ -468,7 +470,7 @@
                                 <i class="fas fa-building me-2"></i>
                                 Lokasi Absensi
                             </h6>
-                            <p class="mb-1 text-small">{{ $locationSettings['location_name'] ?? 'MISNTV | Mav Entertainment Corporation' }}</p>
+                            <p class="mb-1 text-small"><?php echo e($locationSettings['location_name'] ?? 'MISNTV | Mav Entertainment Corporation'); ?></p>
                         </div>
                         
                         <div class="mb-3">
@@ -476,7 +478,7 @@
                                 <i class="fas fa-crosshairs me-2"></i>
                                 Radius Diperbolehkan
                             </h6>
-                            <p class="mb-1 text-small">{{ $locationSettings['radius'] ?? 100 }} meter</p>
+                            <p class="mb-1 text-small"><?php echo e($locationSettings['radius'] ?? 100); ?> meter</p>
                         </div>
                         
                         <div class="mb-3">
@@ -485,26 +487,27 @@
                                 Koordinat
                             </h6>
                             <p class="mb-1 text-small">
-                                Lat: {{ number_format($locationSettings['latitude'] ?? -8.224409, 6) }}<br>
-                                Long: {{ number_format($locationSettings['longitude'] ?? 114.372973, 6) }}
+                                Lat: <?php echo e(number_format($locationSettings['latitude'] ?? -8.224409, 6)); ?><br>
+                                Long: <?php echo e(number_format($locationSettings['longitude'] ?? 114.372973, 6)); ?>
+
                             </p>
                         </div>
                         
-                        @if($locationSettings['enabled'] ?? true)
+                        <?php if($locationSettings['enabled'] ?? true): ?>
                             <div class="alert alert-warning py-2 mb-0">
                                 <small>
                                     <i class="fas fa-exclamation-triangle me-1"></i>
                                     Absensi hanya dapat dilakukan di lokasi yang ditentukan
                                 </small>
                             </div>
-                        @else
+                        <?php else: ?>
                             <div class="alert alert-success py-2 mb-0">
                                 <small>
                                     <i class="fas fa-check-circle me-1"></i>
                                     Pembatasan lokasi tidak aktif
                                 </small>
                             </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
 
@@ -904,11 +907,11 @@
                 
                 App.showLoading('Memproses QR code...');
                 
-                fetch('{{ route("participant.attendance.process") }}', {
+                fetch('<?php echo e(route("participant.attendance.process")); ?>', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
                     },
                     body: JSON.stringify({
                         barcode_id: barcode,
@@ -1112,4 +1115,4 @@
     });
     </script>
 </body>
-</html>
+</html><?php /**PATH C:\Users\ASVS\Desktop\lisa-absensi\PressGO\resources\views/participant/attendance/scan.blade.php ENDPATH**/ ?>

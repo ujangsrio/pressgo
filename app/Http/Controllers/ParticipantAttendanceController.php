@@ -4,19 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\Participant;
+use App\Services\GeolocationService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class ParticipantAttendanceController extends Controller
 {
+    protected $geolocationService;
+
+    public function __construct(GeolocationService $geolocationService)
+    {
+        $this->geolocationService = $geolocationService;
+    }
+
     public function scan()
     {
-        return view('participant.attendance.scan');
+        $locationSettings = $this->geolocationService->getLocationSettings();
+
+        return view('participant.attendance.scan', compact('locationSettings'));
     }
 
     public function processAttendance(Request $request)
     {
         $participant = auth()->guard('participant')->user();
+
+        // Validasi lokasi jika diperlukan
+        $locationValidation = $this->validateLocation($request);
+        if (!$locationValidation['valid']) {
+            return response()->json([
+                'success' => false,
+                'message' => $locationValidation['message'],
+                'location_error' => true
+            ], 400);
+        }
 
         $today = Carbon::today();
         $now = Carbon::now();
@@ -36,7 +56,8 @@ class ParticipantAttendanceController extends Controller
                     'message' => 'Check out berhasil',
                     'participant' => $participant,
                     'type' => 'check_out',
-                    'time' => $now->format('H:i:s')
+                    'time' => $now->format('H:i:s'),
+                    'location_info' => $locationValidation['message']
                 ]);
             } else {
                 return response()->json([
@@ -60,10 +81,34 @@ class ParticipantAttendanceController extends Controller
                 'participant' => $participant,
                 'type' => 'check_in',
                 'status' => $status,
-                'time' => $now->format('H:i:s')
+                'time' => $now->format('H:i:s'),
+                'location_info' => $locationValidation['message']
             ]);
         }
     }
+
+    private function validateLocation(Request $request)
+    {
+        $locationSettings = $this->geolocationService->getLocationSettings();
+
+        if (!$locationSettings['enabled']) {
+            return ['valid' => true, 'message' => 'Pembatasan lokasi tidak aktif'];
+        }
+
+        // Get coordinates from request
+        $userLat = $request->input('latitude');
+        $userLon = $request->input('longitude');
+
+        if (!$userLat || !$userLon) {
+            return [
+                'valid' => false,
+                'message' => 'Lokasi tidak terdeteksi. Pastikan GPS aktif dan izin lokasi diberikan.'
+            ];
+        }
+
+        return $this->geolocationService->validateLocation($userLat, $userLon);
+    }
+
 
     public function index()
     {

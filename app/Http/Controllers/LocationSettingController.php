@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
 use App\Services\GeolocationService;
 use Illuminate\Http\Request;
 
-class SettingController extends Controller
+class LocationSettingController extends Controller
 {
     protected $geolocationService;
 
@@ -17,31 +16,12 @@ class SettingController extends Controller
 
     public function index()
     {
-        $settings = Setting::orderBy('group')->orderBy('key')->get();
-        $groups = $settings->groupBy('group');
-
-        // Get location settings
         $locationSettings = $this->geolocationService->getLocationSettings();
 
-        return view('settings.index', compact('settings', 'groups', 'locationSettings'));
+        return view('admin.settings.location', compact('locationSettings'));
     }
 
     public function update(Request $request)
-    {
-        $validated = $request->validate([
-            'settings' => 'required|array',
-            'settings.*' => 'nullable'
-        ]);
-
-        foreach ($validated['settings'] as $key => $value) {
-            Setting::setValue($key, $value ?? '');
-        }
-
-        return redirect()->route('settings.index')
-            ->with('success', 'Pengaturan berhasil diperbarui!');
-    }
-
-    public function updateLocation(Request $request)
     {
         $request->validate([
             'latitude' => 'required|numeric|between:-90,90',
@@ -60,9 +40,9 @@ class SettingController extends Controller
                 'enabled' => $request->has('enabled')
             ]);
 
-            return redirect()->route('settings.index')->with('success', 'Pengaturan lokasi berhasil diperbarui.');
+            return redirect()->back()->with('success', 'Pengaturan lokasi berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('settings.index')->with('error', 'Gagal memperbarui pengaturan lokasi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Gagal memperbarui pengaturan lokasi: ' . $e->getMessage());
         }
     }
 
@@ -79,10 +59,5 @@ class SettingController extends Controller
         );
 
         return response()->json($validation);
-    }
-
-    public function getSetting($key, $default = null)
-    {
-        return Setting::getValue($key, $default);
     }
 }

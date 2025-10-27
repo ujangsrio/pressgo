@@ -12,6 +12,7 @@ use App\Http\Controllers\ParticipantDashboardController;
 use App\Http\Controllers\ParticipantAttendanceController;
 use App\Http\Controllers\ParticipantSettingController;
 use App\Http\Controllers\PasswordMigrationController;
+use App\Http\Controllers\LocationSettingController;
 
 // Public routes
 Route::get('/', function () {
@@ -81,6 +82,9 @@ Route::middleware('admin')->group(function () {
         Route::get('/', [SettingController::class, 'index'])->name('settings.index');
         Route::post('/', [SettingController::class, 'update'])->name('settings.update');
         Route::post('/reset', [SettingController::class, 'reset'])->name('settings.reset');
+
+        Route::post('/location', [SettingController::class, 'updateLocation'])->name('settings.location.update');
+        Route::post('/location/test', [SettingController::class, 'testLocation'])->name('settings.location.test');
     });
 
     // Reports Routes
@@ -91,7 +95,13 @@ Route::middleware('admin')->group(function () {
         Route::get('/export/attendance', [ReportController::class, 'exportAttendance'])->name('reports.export.attendance');
         Route::get('/export/participants', [ReportController::class, 'exportParticipants'])->name('reports.export.participants');
     });
+
+    // Route::prefix('location-settings')->group(function () {
+    //     Route::get('/', [LocationSettingController::class, 'index'])->name('location-settings.index');
+    //     Route::put('/', [LocationSettingController::class, 'update'])->name('location-settings.update');
+    //     Route::post('/test', [LocationSettingController::class, 'testLocation'])->name('location-settings.test');
 });
+// });
 
 // Protected routes untuk peserta yang sudah login
 Route::middleware('auth:participant')->prefix('participant')->group(function () {

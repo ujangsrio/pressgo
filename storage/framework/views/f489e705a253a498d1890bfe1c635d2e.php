@@ -1,6 +1,6 @@
-@extends('layouts.sidebar')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="row mb-4">
@@ -14,7 +14,7 @@
                     <p class="text-muted mb-0">Kelola pengaturan brand, desain ID Card, lokasi absensi, dan sistem</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('participants.index') }}" class="btn btn-outline-secondary">
+                    <a href="<?php echo e(route('participants.index')); ?>" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left me-2"></i>
                         Kembali
                     </a>
@@ -23,28 +23,30 @@
         </div>
     </div>
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible fade show">
             <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    @endif
+    <?php endif; ?>
 
-    @if(session('error'))
+    <?php if(session('error')): ?>
         <div class="alert alert-danger alert-dismissible fade show">
             <i class="bi bi-exclamation-circle me-2"></i>
-            {{ session('error') }}
+            <?php echo e(session('error')); ?>
+
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    @endif
+    <?php endif; ?>
 
     <!-- Settings Form -->
     <div class="row">
         <div class="col-12">
             <!-- Main Settings Form -->
-            <form action="{{ route('settings.update') }}" method="POST" id="settingsForm">
-                @csrf
+            <form action="<?php echo e(route('settings.update')); ?>" method="POST" id="settingsForm">
+                <?php echo csrf_field(); ?>
                 
                 <div class="card card-custom mb-4">
                     <div class="card-header bg-white py-3">
@@ -85,21 +87,21 @@
                                     <div class="col-md-6">
                                         <label for="brand_name" class="form-label fw-semibold">Nama Brand</label>
                                         <input type="text" class="form-control" id="brand_name" name="settings[brand_name]" 
-                                               value="{{ App\Models\Setting::getValue('brand_name', 'BRAND NAME') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('brand_name', 'BRAND NAME')); ?>">
                                         <div class="form-text">Nama brand yang ditampilkan di ID Card</div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <label for="brand_subtitle" class="form-label fw-semibold">Subtitle Brand</label>
                                         <input type="text" class="form-control" id="brand_subtitle" name="settings[brand_subtitle]" 
-                                               value="{{ App\Models\Setting::getValue('brand_subtitle', 'INTERNSHIP PROGRAM') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('brand_subtitle', 'INTERNSHIP PROGRAM')); ?>">
                                         <div class="form-text">Subtitle di bawah nama brand</div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <label for="company_name" class="form-label fw-semibold">Nama Perusahaan Lengkap</label>
                                         <input type="text" class="form-control" id="company_name" name="settings[company_name]" 
-                                               value="{{ App\Models\Setting::getValue('company_name', 'Company Name Inc.') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('company_name', 'Company Name Inc.')); ?>">
                                         <div class="form-text">Nama legal perusahaan</div>
                                     </div>
                                 </div>
@@ -111,27 +113,27 @@
                                     <div class="col-md-6">
                                         <label for="contact_phone" class="form-label fw-semibold">Telepon</label>
                                         <input type="text" class="form-control" id="contact_phone" name="settings[contact_phone]" 
-                                               value="{{ App\Models\Setting::getValue('contact_phone', '+62 812-3456-7890') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('contact_phone', '+62 812-3456-7890')); ?>">
                                         <div class="form-text">Nomor telepon perusahaan</div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <label for="contact_email" class="form-label fw-semibold">Email</label>
                                         <input type="email" class="form-control" id="contact_email" name="settings[contact_email]" 
-                                               value="{{ App\Models\Setting::getValue('contact_email', 'info@brandname.com') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('contact_email', 'info@brandname.com')); ?>">
                                         <div class="form-text">Email perusahaan</div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <label for="contact_website" class="form-label fw-semibold">Website</label>
                                         <input type="text" class="form-control" id="contact_website" name="settings[contact_website]" 
-                                               value="{{ App\Models\Setting::getValue('contact_website', 'www.brandname.com') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('contact_website', 'www.brandname.com')); ?>">
                                         <div class="form-text">Website perusahaan</div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <label for="contact_address" class="form-label fw-semibold">Alamat</label>
-                                        <textarea class="form-control" id="contact_address" name="settings[contact_address]" rows="3">{{ App\Models\Setting::getValue('contact_address', 'Jl. Contoh Alamat No. 123, Jakarta, Indonesia') }}</textarea>
+                                        <textarea class="form-control" id="contact_address" name="settings[contact_address]" rows="3"><?php echo e(App\Models\Setting::getValue('contact_address', 'Jl. Contoh Alamat No. 123, Jakarta, Indonesia')); ?></textarea>
                                         <div class="form-text">Alamat lengkap perusahaan</div>
                                     </div>
                                 </div>
@@ -145,41 +147,41 @@
                                     Peserta harus berada dalam radius yang ditentukan dari lokasi yang ditetapkan.
                                 </div>
 
-                                <form action="{{ route('settings.location.update') }}" method="POST" id="locationForm">
-                                    @csrf
+                                <form action="<?php echo e(route('settings.location.update')); ?>" method="POST" id="locationForm">
+                                    <?php echo csrf_field(); ?>
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <label for="location_name" class="form-label fw-semibold">Nama Lokasi</label>
                                             <input type="text" class="form-control" id="location_name" name="location_name" 
-                                                   value="{{ $locationSettings['location_name'] }}" required>
+                                                   value="<?php echo e($locationSettings['location_name']); ?>" required>
                                             <div class="form-text">Nama lokasi absensi yang akan ditampilkan ke peserta</div>
                                         </div>
                                         
                                         <div class="col-md-6">
                                             <label for="latitude" class="form-label fw-semibold">Latitude</label>
                                             <input type="number" step="any" class="form-control" id="latitude" name="latitude" 
-                                                   value="{{ $locationSettings['latitude'] }}" required>
+                                                   value="<?php echo e($locationSettings['latitude']); ?>" required>
                                             <div class="form-text">Koordinat latitude lokasi (-90 sampai 90)</div>
                                         </div>
                                         
                                         <div class="col-md-6">
                                             <label for="longitude" class="form-label fw-semibold">Longitude</label>
                                             <input type="number" step="any" class="form-control" id="longitude" name="longitude" 
-                                                   value="{{ $locationSettings['longitude'] }}" required>
+                                                   value="<?php echo e($locationSettings['longitude']); ?>" required>
                                             <div class="form-text">Koordinat longitude lokasi (-180 sampai 180)</div>
                                         </div>
                                         
                                         <div class="col-md-6">
                                             <label for="radius" class="form-label fw-semibold">Radius (meter)</label>
                                             <input type="number" class="form-control" id="radius" name="radius" 
-                                                   value="{{ $locationSettings['radius'] }}" min="10" max="1000" required>
+                                                   value="<?php echo e($locationSettings['radius']); ?>" min="10" max="1000" required>
                                             <div class="form-text">Jarak maksimum dari lokasi untuk melakukan absensi (10-1000 meter)</div>
                                         </div>
                                         
                                         <div class="col-md-6">
                                             <div class="form-check form-switch mt-4 pt-2">
                                                 <input class="form-check-input" type="checkbox" id="enabled" name="enabled" value="1" 
-                                                       {{ $locationSettings['enabled'] ? 'checked' : '' }}>
+                                                       <?php echo e($locationSettings['enabled'] ? 'checked' : ''); ?>>
                                                 <label class="form-check-label fw-semibold" for="enabled">
                                                     Aktifkan Pembatasan Lokasi
                                                 </label>
@@ -196,14 +198,16 @@
                                                     </h6>
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <strong>Lokasi:</strong> {{ $locationSettings['location_name'] }}<br>
-                                                            <strong>Koordinat:</strong> {{ number_format($locationSettings['latitude'], 6) }}, {{ number_format($locationSettings['longitude'], 6) }}
+                                                            <strong>Lokasi:</strong> <?php echo e($locationSettings['location_name']); ?><br>
+                                                            <strong>Koordinat:</strong> <?php echo e(number_format($locationSettings['latitude'], 6)); ?>, <?php echo e(number_format($locationSettings['longitude'], 6)); ?>
+
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <strong>Radius:</strong> {{ $locationSettings['radius'] }} meter<br>
+                                                            <strong>Radius:</strong> <?php echo e($locationSettings['radius']); ?> meter<br>
                                                             <strong>Status:</strong> 
-                                                            <span class="badge {{ $locationSettings['enabled'] ? 'bg-success' : 'bg-secondary' }}">
-                                                                {{ $locationSettings['enabled'] ? 'Aktif' : 'Nonaktif' }}
+                                                            <span class="badge <?php echo e($locationSettings['enabled'] ? 'bg-success' : 'bg-secondary'); ?>">
+                                                                <?php echo e($locationSettings['enabled'] ? 'Aktif' : 'Nonaktif'); ?>
+
                                                             </span>
                                                         </div>
                                                     </div>
@@ -233,11 +237,11 @@
                                         <div class="row g-2">
                                             <div class="col-md-3">
                                                 <input type="number" step="any" class="form-control" id="test_latitude" 
-                                                       placeholder="Latitude" value="{{ $locationSettings['latitude'] }}">
+                                                       placeholder="Latitude" value="<?php echo e($locationSettings['latitude']); ?>">
                                             </div>
                                             <div class="col-md-3">
                                                 <input type="number" step="any" class="form-control" id="test_longitude" 
-                                                       placeholder="Longitude" value="{{ $locationSettings['longitude'] }}">
+                                                       placeholder="Longitude" value="<?php echo e($locationSettings['longitude']); ?>">
                                             </div>
                                             <div class="col-md-3">
                                                 <button type="button" class="btn btn-outline-info w-100" onclick="testLocation()">
@@ -262,34 +266,34 @@
                                     <div class="col-md-6">
                                         <label for="id_card_validity_months" class="form-label fw-semibold">Masa Berlaku (Bulan)</label>
                                         <input type="number" class="form-control" id="id_card_validity_months" name="settings[id_card_validity_months]" 
-                                               value="{{ App\Models\Setting::getValue('id_card_validity_months', '12') }}" min="1" max="60">
+                                               value="<?php echo e(App\Models\Setting::getValue('id_card_validity_months', '12')); ?>" min="1" max="60">
                                         <div class="form-text">Masa berlaku ID Card dalam bulan</div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <label for="front_background" class="form-label fw-semibold">Background Depan</label>
                                         <input type="text" class="form-control" id="front_background" name="settings[front_background]" 
-                                               value="{{ App\Models\Setting::getValue('front_background', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('front_background', 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)')); ?>">
                                         <div class="form-text">CSS gradient/color untuk background depan</div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <label for="back_background" class="form-label fw-semibold">Background Belakang</label>
                                         <input type="text" class="form-control" id="back_background" name="settings[back_background]" 
-                                               value="{{ App\Models\Setting::getValue('back_background', 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)') }}">
+                                               value="<?php echo e(App\Models\Setting::getValue('back_background', 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)')); ?>">
                                         <div class="form-text">CSS gradient/color untuk background belakang</div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <label for="terms_conditions" class="form-label fw-semibold">Syarat & Ketentuan</label>
-                                        <textarea class="form-control" id="terms_conditions" name="settings[terms_conditions]" rows="4">{{ App\Models\Setting::getValue('terms_conditions', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis elit sapien, convallis vell enim sit amet. This card is property of Brand Name and must be returned upon termination of program. Loss or theft must be reported immediately.') }}</textarea>
+                                        <textarea class="form-control" id="terms_conditions" name="settings[terms_conditions]" rows="4"><?php echo e(App\Models\Setting::getValue('terms_conditions', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis elit sapien, convallis vell enim sit amet. This card is property of Brand Name and must be returned upon termination of program. Loss or theft must be reported immediately.')); ?></textarea>
                                         <div class="form-text">Teks syarat dan ketentuan untuk belakang ID Card</div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="show_barcode_front" name="settings[show_barcode_front]" value="1" 
-                                                   {{ App\Models\Setting::getValue('show_barcode_front', '0') ? 'checked' : '' }}>
+                                                   <?php echo e(App\Models\Setting::getValue('show_barcode_front', '0') ? 'checked' : ''); ?>>
                                             <label class="form-check-label fw-semibold" for="show_barcode_front">
                                                 Tampilkan Barcode di Sisi Depan
                                             </label>
@@ -300,7 +304,7 @@
                                     <div class="col-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="show_barcode_back" name="settings[show_barcode_back]" value="1" 
-                                                   {{ App\Models\Setting::getValue('show_barcode_back', '1') ? 'checked' : '' }}>
+                                                   <?php echo e(App\Models\Setting::getValue('show_barcode_back', '1') ? 'checked' : ''); ?>>
                                             <label class="form-check-label fw-semibold" for="show_barcode_back">
                                                 Tampilkan Barcode di Sisi Belakang
                                             </label>
@@ -316,21 +320,21 @@
                                     <div class="col-md-6">
                                         <label for="id_card_size_width" class="form-label fw-semibold">Lebar ID Card (px)</label>
                                         <input type="number" class="form-control" id="id_card_size_width" name="settings[id_card_size_width]" 
-                                               value="{{ App\Models\Setting::getValue('id_card_size_width', '350') }}" min="200" max="800">
+                                               value="<?php echo e(App\Models\Setting::getValue('id_card_size_width', '350')); ?>" min="200" max="800">
                                         <div class="form-text">Lebar ID Card dalam pixel</div>
                                     </div>
                                     
                                     <div class="col-md-6">
                                         <label for="id_card_size_height" class="form-label fw-semibold">Tinggi ID Card (px)</label>
                                         <input type="number" class="form-control" id="id_card_size_height" name="settings[id_card_size_height]" 
-                                               value="{{ App\Models\Setting::getValue('id_card_size_height', '500') }}" min="300" max="1000">
+                                               value="<?php echo e(App\Models\Setting::getValue('id_card_size_height', '500')); ?>" min="300" max="1000">
                                         <div class="form-text">Tinggi ID Card dalam pixel</div>
                                     </div>
                                     
                                     <div class="col-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="auto_print_id_card" name="settings[auto_print_id_card]" value="1" 
-                                                   {{ App\Models\Setting::getValue('auto_print_id_card', '0') ? 'checked' : '' }}>
+                                                   <?php echo e(App\Models\Setting::getValue('auto_print_id_card', '0') ? 'checked' : ''); ?>>
                                             <label class="form-check-label fw-semibold" for="auto_print_id_card">
                                                 Auto Print ID Card
                                             </label>
@@ -374,7 +378,7 @@
                 </div>
                 <div class="card-body text-center">
                     <p class="text-muted mb-3">Preview akan menampilkan perubahan sesuai pengaturan yang disimpan</p>
-                    <a href="{{ route('participants.id-cards-all') }}" class="btn btn-outline-primary" target="_blank">
+                    <a href="<?php echo e(route('participants.id-cards-all')); ?>" class="btn btn-outline-primary" target="_blank">
                         <i class="bi bi-person-badge me-2"></i>
                         Lihat Preview Semua ID Card
                     </a>
@@ -383,14 +387,14 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
 function resetToDefault() {
     if (confirm('Apakah Anda yakin ingin mengembalikan semua pengaturan ke nilai default?')) {
         // You can implement AJAX reset here or redirect to reset route
-        window.location.href = "{{ route('settings.reset') }}";
+        window.location.href = "<?php echo e(route('settings.reset')); ?>";
     }
 }
 
@@ -423,11 +427,11 @@ function testLocation() {
     button.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Testing...';
     button.disabled = true;
 
-    fetch('{{ route("settings.location.test") }}', {
+    fetch('<?php echo e(route("settings.location.test")); ?>', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
         },
         body: JSON.stringify({
             test_latitude: latitude,
@@ -523,4 +527,5 @@ document.getElementById('back_background').addEventListener('focus', function() 
     this.title = 'Contoh: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) atau #e74c3c';
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\ASVS\Desktop\lisa-absensi\PressGO\resources\views/settings/index.blade.php ENDPATH**/ ?>
