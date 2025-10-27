@@ -423,38 +423,7 @@
             </div>
 
             <!-- Right Column: Sidebar Cards -->
-            <div class="col-lg-4">
-                <!-- Manual Input Card -->
-                <div class="card card-custom">
-                    <div class="card-header bg-info text-white py-3">
-                        <h5 class="card-title mb-0">
-                            <i class="fas fa-keyboard me-2"></i>
-                            Input Manual
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="manual-barcode" class="form-label fw-semibold">Kode QR/Barcode</label>
-                            <input type="text" 
-                                   class="form-control form-control-lg" 
-                                   id="manual-barcode" 
-                                   placeholder="Masukkan kode QR/barcode..."
-                                   autocomplete="off"
-                                   maxlength="20">
-                            <div class="form-text">Tekan Enter untuk submit</div>
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button type="button" class="btn btn-primary py-2" onclick="processManualInput()" id="submitManual">
-                                <i class="fas fa-paper-plane me-2"></i>
-                                Submit Absensi
-                            </button>
-                            <button type="button" class="btn btn-outline-danger" onclick="clearManualInput()">
-                                <i class="fas fa-times-circle me-2"></i>
-                                Hapus Input
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-lg-4">
 
                 <!-- Location Information Card -->
                 <div class="card card-custom">
@@ -508,6 +477,38 @@
                                 </small>
                             </div>
                         <?php endif; ?>
+                    </div>
+                </div>
+
+                <!-- Manual Input Card -->
+                <div class="card card-custom">
+                    <div class="card-header bg-info text-white py-3">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-keyboard me-2"></i>
+                            Input Manual
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="manual-barcode" class="form-label fw-semibold">Kode QR/Barcode</label>
+                            <input type="text" 
+                                   class="form-control form-control-lg" 
+                                   id="manual-barcode" 
+                                   placeholder="Masukkan kode QR/barcode..."
+                                   autocomplete="off"
+                                   maxlength="20">
+                            <div class="form-text">Tekan Enter untuk submit</div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-primary py-2" onclick="processManualInput()" id="submitManual">
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Submit Absensi
+                            </button>
+                            <button type="button" class="btn btn-outline-danger" onclick="clearManualInput()">
+                                <i class="fas fa-times-circle me-2"></i>
+                                Hapus Input
+                            </button>
+                        </div>
                     </div>
                 </div>
 
