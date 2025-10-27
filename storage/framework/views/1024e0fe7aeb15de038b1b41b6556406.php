@@ -1,6 +1,6 @@
-@extends('layouts.sidebar')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="row mb-4">
@@ -14,7 +14,7 @@
                     <p class="text-muted mb-0">Detail lengkap data absensi peserta</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('attendance.edit', $attendance) }}" class="btn btn-warning">
+                    <a href="<?php echo e(route('attendance.edit', $attendance)); ?>" class="btn btn-warning">
                         <i class="bi bi-pencil me-2"></i>
                         Edit
                     </a>
@@ -22,7 +22,7 @@
                         <i class="bi bi-trash me-2"></i>
                         Hapus
                     </button>
-                    <a href="{{ route('attendance.index') }}" class="btn btn-outline-secondary">
+                    <a href="<?php echo e(route('attendance.index')); ?>" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left me-2"></i>
                         Kembali
                     </a>
@@ -47,31 +47,34 @@
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-muted">Tanggal Absensi</label>
                                 <div class="fs-5 fw-bold text-primary">
-                                    {{ \Carbon\Carbon::parse($attendance->date)->format('d F Y') }}
+                                    <?php echo e(\Carbon\Carbon::parse($attendance->date)->format('d F Y')); ?>
+
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-muted">Masuk</label>
                                 <div class="fs-5 fw-bold text-success">
-                                    {{ $attendance->check_in }}
-                                    @if($attendance->status === 'late')
+                                    <?php echo e($attendance->check_in); ?>
+
+                                    <?php if($attendance->status === 'late'): ?>
                                         <span class="badge bg-warning text-dark ms-2">Terlambat</span>
-                                    @else
+                                    <?php else: ?>
                                         <span class="badge bg-success ms-2">Tepat Waktu</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-muted">Keluar</label>
                                 <div class="fs-5 fw-bold text-info">
-                                    {{ $attendance->check_out ?? '-' }}
-                                    @if($attendance->check_out)
+                                    <?php echo e($attendance->check_out ?? '-'); ?>
+
+                                    <?php if($attendance->check_out): ?>
                                         <span class="badge bg-info ms-2">Selesai</span>
-                                    @else
+                                    <?php else: ?>
                                         <span class="badge bg-secondary ms-2">Belum Keluar</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -80,40 +83,41 @@
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-muted">Status</label>
                                 <div>
-                                    @if($attendance->status === 'present')
+                                    <?php if($attendance->status === 'present'): ?>
                                         <span class="badge bg-success fs-6">Tepat Waktu</span>
-                                    @elseif($attendance->status === 'late')
+                                    <?php elseif($attendance->status === 'late'): ?>
                                         <span class="badge bg-warning text-dark fs-6">Terlambat</span>
-                                    @else
+                                    <?php else: ?>
                                         <span class="badge bg-danger fs-6">Absen</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-muted">Durasi Kerja</label>
                                 <div class="fs-5 fw-bold text-dark">
-                                    @if($attendance->check_in && $attendance->check_out)
-                                        @php
+                                    <?php if($attendance->check_in && $attendance->check_out): ?>
+                                        <?php
                                             $checkIn = \Carbon\Carbon::createFromFormat('H:i:s', $attendance->check_in);
                                             $checkOut = \Carbon\Carbon::createFromFormat('H:i:s', $attendance->check_out);
                                             $duration = $checkIn->diff($checkOut);
-                                        @endphp
-                                        {{ $duration->h }} jam {{ $duration->i }} menit
-                                    @else
+                                        ?>
+                                        <?php echo e($duration->h); ?> jam <?php echo e($duration->i); ?> menit
+                                    <?php else: ?>
                                         -
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-muted">Catatan</label>
                                 <div class="p-3 bg-light rounded-3">
-                                    @if($attendance->notes)
-                                        {{ $attendance->notes }}
-                                    @else
+                                    <?php if($attendance->notes): ?>
+                                        <?php echo e($attendance->notes); ?>
+
+                                    <?php else: ?>
                                         <span class="text-muted">Tidak ada catatan</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -131,28 +135,30 @@
                 </div>
                 <div class="card-body">
                     <div class="timeline">
-                        <div class="timeline-item {{ $attendance->check_in ? 'completed' : '' }}">
+                        <div class="timeline-item <?php echo e($attendance->check_in ? 'completed' : ''); ?>">
                             <div class="timeline-marker bg-success"></div>
                             <div class="timeline-content">
                                 <h6 class="fw-semibold">Masuk</h6>
-                                <p class="mb-1">{{ $attendance->check_in ?? 'Belum masuk' }}</p>
+                                <p class="mb-1"><?php echo e($attendance->check_in ?? 'Belum masuk'); ?></p>
                                 <small class="text-muted">
-                                    @if($attendance->check_in)
-                                        {{ \Carbon\Carbon::parse($attendance->date . ' ' . $attendance->check_in)->format('d F Y H:i') }}
-                                    @endif
+                                    <?php if($attendance->check_in): ?>
+                                        <?php echo e(\Carbon\Carbon::parse($attendance->date . ' ' . $attendance->check_in)->format('d F Y H:i')); ?>
+
+                                    <?php endif; ?>
                                 </small>
                             </div>
                         </div>
 
-                        <div class="timeline-item {{ $attendance->check_out ? 'completed' : '' }}">
-                            <div class="timeline-marker {{ $attendance->check_out ? 'bg-info' : 'bg-secondary' }}"></div>
+                        <div class="timeline-item <?php echo e($attendance->check_out ? 'completed' : ''); ?>">
+                            <div class="timeline-marker <?php echo e($attendance->check_out ? 'bg-info' : 'bg-secondary'); ?>"></div>
                             <div class="timeline-content">
                                 <h6 class="fw-semibold">Keluar</h6>
-                                <p class="mb-1">{{ $attendance->check_out ?? 'Belum keluar' }}</p>
+                                <p class="mb-1"><?php echo e($attendance->check_out ?? 'Belum keluar'); ?></p>
                                 <small class="text-muted">
-                                    @if($attendance->check_out)
-                                        {{ \Carbon\Carbon::parse($attendance->date . ' ' . $attendance->check_out)->format('d F Y H:i') }}
-                                    @endif
+                                    <?php if($attendance->check_out): ?>
+                                        <?php echo e(\Carbon\Carbon::parse($attendance->date . ' ' . $attendance->check_out)->format('d F Y H:i')); ?>
+
+                                    <?php endif; ?>
                                 </small>
                             </div>
                         </div>
@@ -173,10 +179,11 @@
                 <div class="card-body">
                     <div class="text-center mb-4">
                         <div class="user-avatar-lg mx-auto mb-3">
-                            {{ substr($attendance->participant->name, 0, 1) }}
+                            <?php echo e(substr($attendance->participant->name, 0, 1)); ?>
+
                         </div>
-                        <h4 class="fw-bold">{{ $attendance->participant->name }}</h4>
-                        <p class="text-muted mb-0">{{ $attendance->participant->program_type }}</p>
+                        <h4 class="fw-bold"><?php echo e($attendance->participant->name); ?></h4>
+                        <p class="text-muted mb-0"><?php echo e($attendance->participant->program_type); ?></p>
                     </div>
 
                     <div class="participant-info">
@@ -184,7 +191,7 @@
                             <i class="bi bi-id-card me-2 text-primary"></i>
                             <div>
                                 <small class="text-muted">NIM / NISN</small>
-                                <div class="fw-semibold">{{ $attendance->participant->nim }}</div>
+                                <div class="fw-semibold"><?php echo e($attendance->participant->nim); ?></div>
                             </div>
                         </div>
 
@@ -192,7 +199,7 @@
                             <i class="bi bi-envelope me-2 text-primary"></i>
                             <div>
                                 <small class="text-muted">Email</small>
-                                <div class="fw-semibold">{{ $attendance->participant->email }}</div>
+                                <div class="fw-semibold"><?php echo e($attendance->participant->email); ?></div>
                             </div>
                         </div>
 
@@ -200,7 +207,7 @@
                             <i class="bi bi-building me-2 text-primary"></i>
                             <div>
                                 <small class="text-muted">Institusi</small>
-                                <div class="fw-semibold">{{ $attendance->participant->institution }}</div>
+                                <div class="fw-semibold"><?php echo e($attendance->participant->institution); ?></div>
                             </div>
                         </div>
 
@@ -209,7 +216,7 @@
                             <div>
                                 <small class="text-muted">Barcode ID</small>
                                 <div class="fw-semibold">
-                                    <code class="bg-light p-1 rounded">{{ $attendance->participant->barcode_id }}</code>
+                                    <code class="bg-light p-1 rounded"><?php echo e($attendance->participant->barcode_id); ?></code>
                                 </div>
                             </div>
                         </div>
@@ -226,24 +233,24 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @php
+                    <?php
                         $totalAttendance = $attendance->participant->attendances()->count();
                         $presentCount = $attendance->participant->attendances()->where('status', 'present')->count();
                         $lateCount = $attendance->participant->attendances()->where('status', 'late')->count();
                         $attendanceRate = $totalAttendance > 0 ? round(($presentCount / $totalAttendance) * 100, 1) : 0;
-                    @endphp
+                    ?>
 
                     <div class="stats-grid">
                         <div class="stat-item text-center">
-                            <div class="stat-number text-primary">{{ $totalAttendance }}</div>
+                            <div class="stat-number text-primary"><?php echo e($totalAttendance); ?></div>
                             <small class="text-muted">Total Absensi</small>
                         </div>
                         <div class="stat-item text-center">
-                            <div class="stat-number text-success">{{ $presentCount }}</div>
+                            <div class="stat-number text-success"><?php echo e($presentCount); ?></div>
                             <small class="text-muted">Tepat Waktu</small>
                         </div>
                         <div class="stat-item text-center">
-                            <div class="stat-number text-warning">{{ $lateCount }}</div>
+                            <div class="stat-number text-warning"><?php echo e($lateCount); ?></div>
                             <small class="text-muted">Terlambat</small>
                         </div>
                     </div>
@@ -251,10 +258,10 @@
                     <div class="mt-3">
                         <div class="d-flex justify-content-between mb-1">
                             <small class="text-muted">Rate Kehadiran</small>
-                            <small class="fw-semibold">{{ $attendanceRate }}%</small>
+                            <small class="fw-semibold"><?php echo e($attendanceRate); ?>%</small>
                         </div>
                         <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-success" style="width: {{ $attendanceRate }}%"></div>
+                            <div class="progress-bar bg-success" style="width: <?php echo e($attendanceRate); ?>%"></div>
                         </div>
                     </div>
                 </div>
@@ -285,18 +292,18 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <form action="{{ route('attendance.destroy', $attendance) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
+                <form action="<?php echo e(route('attendance.destroy', $attendance)); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
                     <button type="submit" class="btn btn-danger">Hapus</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
 // Additional scripts if needed
 </script>
@@ -380,4 +387,5 @@
     border-radius: 10px;
 }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\ASVS\Desktop\lisa-absensi\PressGO\resources\views/attendance/show.blade.php ENDPATH**/ ?>

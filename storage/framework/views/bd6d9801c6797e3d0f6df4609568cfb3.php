@@ -86,7 +86,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                 <div class="form-text">
-                    <strong>Password adalah NIM Anda</strong>. Masukkan NIM yang sama seperti di atas.
+                    <strong>Password Default adalah NIM Anda</strong>. Masukkan NIM yang sama seperti di atas.
                 </div>
             </div>
 

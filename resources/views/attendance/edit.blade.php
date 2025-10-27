@@ -111,6 +111,7 @@
                                     <option value="present" {{ old('status', $attendance->status) == 'present' ? 'selected' : '' }}>Tepat Waktu</option>
                                     <option value="late" {{ old('status', $attendance->status) == 'late' ? 'selected' : '' }}>Terlambat</option>
                                     <option value="absent" {{ old('status', $attendance->status) == 'absent' ? 'selected' : '' }}>Absen</option>
+                                    <option value="izin" {{ old('status', $attendance->status) == 'izin' ? 'selected' : '' }}>Izin</option>
                                 </select>
                                 @error('status')
                                     <div class="invalid-feedback">{{ $message }}</div>

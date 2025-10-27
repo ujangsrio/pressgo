@@ -57,7 +57,7 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
                 <div class="form-text">
-                    <strong>Password adalah NIM Anda</strong>. Masukkan NIM yang sama seperti di atas.
+                    <strong>Password Default adalah NIM Anda</strong>. Masukkan NIM yang sama seperti di atas.
                 </div>
             </div>
 

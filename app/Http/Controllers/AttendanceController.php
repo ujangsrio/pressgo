@@ -115,7 +115,7 @@ class AttendanceController extends Controller
             'date' => 'required|date',
             'check_in' => 'required|date_format:H:i',
             'check_out' => 'nullable|date_format:H:i',
-            'status' => 'required|in:present,late,absent',
+            'status' => 'required|in:present,late,absent, izin',
             'notes' => 'nullable|string|max:500'
         ]);
 

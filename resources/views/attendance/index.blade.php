@@ -50,7 +50,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card card-custom bg-warning text-dark">
                 <div class="card-body">
@@ -67,6 +66,7 @@
             </div>
         </div>
         
+        
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card card-custom bg-info text-white">
                 <div class="card-body">
@@ -79,7 +79,7 @@
                             <i class="bi bi-people"></i>
                         </div>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
-@extends('layouts.sidebar')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="row mb-4">
@@ -14,11 +14,11 @@
                     <p class="text-muted mb-0">Kelola data Mahasiswa Magang dan Siswa PKL</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="{{ route('participants.create') }}" class="btn btn-primary">
+                    <a href="<?php echo e(route('participants.create')); ?>" class="btn btn-primary">
                         <i class="bi bi-plus-circle me-2"></i>
                         Tambah Peserta
                     </a>
-                    <a href="{{ route('participants.id-cards-all') }}" class="btn btn-success" target="_blank">
+                    <a href="<?php echo e(route('participants.id-cards-all')); ?>" class="btn btn-success" target="_blank">
                         <i class="bi bi-person-badge me-2"></i>
                         Generate All ID Cards
                     </a>
@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h2 class="fw-bold mb-0">{{ $stats['total'] ?? 0 }}</h2>
+                            <h2 class="fw-bold mb-0"><?php echo e($stats['total'] ?? 0); ?></h2>
                             <p class="mb-0 opacity-75">Total Peserta</p>
                         </div>
                         <div class="stat-icon">
@@ -50,7 +50,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h2 class="fw-bold mb-0">{{ $stats['magang'] ?? 0 }}</h2>
+                            <h2 class="fw-bold mb-0"><?php echo e($stats['magang'] ?? 0); ?></h2>
                             <p class="mb-0 opacity-75">Mahasiswa Magang</p>
                         </div>
                         <div class="stat-icon">
@@ -66,7 +66,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h2 class="fw-bold mb-0">{{ $stats['pkl'] ?? 0 }}</h2>
+                            <h2 class="fw-bold mb-0"><?php echo e($stats['pkl'] ?? 0); ?></h2>
                             <p class="mb-0 opacity-75">Siswa PKL</p>
                         </div>
                         <div class="stat-icon">
@@ -82,7 +82,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h2 class="fw-bold mb-0">{{ $stats['total'] ?? 0 }}</h2>
+                            <h2 class="fw-bold mb-0"><?php echo e($stats['total'] ?? 0); ?></h2>
                             <p class="mb-0 opacity-75">Barcode Aktif</p>
                         </div>
                         <div class="stat-icon">
@@ -178,79 +178,81 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($participants as $participant)
+                                <?php $__empty_1 = true; $__currentLoopData = $participants; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $participant): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <tr>
                                     <td class="ps-4">
                                         <div class="participant-photo-container">
-                                            @if($participant->gambar)
-                                                <img src="{{ $participant->getGambarUrlAttribute() }}" 
-                                                     alt="Foto {{ $participant->nim }}"
+                                            <?php if($participant->gambar): ?>
+                                                <img src="<?php echo e($participant->getGambarUrlAttribute()); ?>" 
+                                                     alt="Foto <?php echo e($participant->nim); ?>"
                                                      class="participant-photo"
                                                      data-bs-toggle="tooltip"
-                                                     title="Lihat foto {{ $participant->nim }}"
-                                                     onclick="showPhotoModal('{{ $participant->getGambarUrlAttribute() }}', '{{ $participant->name }}')">
-                                            @else
+                                                     title="Lihat foto <?php echo e($participant->nim); ?>"
+                                                     onclick="showPhotoModal('<?php echo e($participant->getGambarUrlAttribute()); ?>', '<?php echo e($participant->name); ?>')">
+                                            <?php else: ?>
                                                 <div class="no-photo-placeholder">
                                                     <i class="bi bi-person-circle"></i>
                                                 </div>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <h6 class="mb-0 fw-semibold">{{ $participant->name }}</h6>
-                                                <small class="text-muted">Terdaftar: {{ $participant->created_at->format('d/m/Y') }}</small>
+                                                <h6 class="mb-0 fw-semibold"><?php echo e($participant->name); ?></h6>
+                                                <small class="text-muted">Terdaftar: <?php echo e($participant->created_at->format('d/m/Y')); ?></small>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <span class="badge bg-secondary">
                                             <i class="bi bi-person-circle me-1"></i>
-                                            {{ $participant->username }}
+                                            <?php echo e($participant->username); ?>
+
                                         </span>
                                     </td>
                                     <td>
                                         <small class="text-muted">
-                                            {{ $participant->tanggal_lahir_formatted }}<br>
-                                            @if($participant->umur)
-                                                <span class="badge bg-light text-dark">({{ $participant->umur }} thn)</span>
-                                            @endif
+                                            <?php echo e($participant->tanggal_lahir_formatted); ?><br>
+                                            <?php if($participant->umur): ?>
+                                                <span class="badge bg-light text-dark">(<?php echo e($participant->umur); ?> thn)</span>
+                                            <?php endif; ?>
                                         </small>
                                     </td>
                                     <td>
-                                        <small class="text-muted">{{ $participant->tanggal_bergabung_formatted }}</small>
+                                        <small class="text-muted"><?php echo e($participant->tanggal_bergabung_formatted); ?></small>
                                     </td>
                                     <td>
-                                        <span class="fw-semibold">{{ $participant->nim }}</span>
+                                        <span class="fw-semibold"><?php echo e($participant->nim); ?></span>
                                     </td>
                                     <td>
-                                        <span class="text-break">{{ $participant->email }}</span>
+                                        <span class="text-break"><?php echo e($participant->email); ?></span>
                                     </td>
                                     <td>
-                                        <span class="text-break">{{ $participant->institution }}</span>
+                                        <span class="text-break"><?php echo e($participant->institution); ?></span>
                                     </td>
                                     <td>
-                                        @if($participant->program_type === 'Magang')
+                                        <?php if($participant->program_type === 'Magang'): ?>
                                             <span class="badge bg-success">
                                                 <i class="bi bi-briefcase me-1"></i>
                                                 Magang
                                             </span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="badge bg-info">
                                                 <i class="bi bi-mortarboard me-1"></i>
                                                 PKL
                                             </span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <span class="badge bg-dark me-2">
                                                 <i class="bi bi-upc-scan me-1"></i>
-                                                {{ $participant->barcode_id }}
+                                                <?php echo e($participant->barcode_id); ?>
+
                                             </span>
                                             <button class="btn btn-sm btn-outline-secondary" 
-                                                    onclick="copyBarcode('{{ $participant->barcode_id }}')"
+                                                    onclick="copyBarcode('<?php echo e($participant->barcode_id); ?>')"
                                                     data-bs-toggle="tooltip" 
                                                     title="Salin Barcode ID">
                                                 <i class="bi bi-clipboard"></i>
@@ -259,7 +261,7 @@
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group btn-group-sm">
-                                            <a href="{{ route('participants.edit', $participant) }}" 
+                                            <a href="<?php echo e(route('participants.edit', $participant)); ?>" 
                                             class="btn btn-outline-primary"
                                             data-bs-toggle="tooltip" 
                                             title="Edit Peserta">
@@ -267,16 +269,16 @@
                                             </a>
                                             <button class="btn btn-outline-info"
                                                     onclick="showQrCodeModal(
-                                                        '{{ $participant->barcode_id }}', 
-                                                        '{{ $participant->name }}',
-                                                        '{{ $participant->nim }}',
-                                                        '{{ $participant->institution }}'
+                                                        '<?php echo e($participant->barcode_id); ?>', 
+                                                        '<?php echo e($participant->name); ?>',
+                                                        '<?php echo e($participant->nim); ?>',
+                                                        '<?php echo e($participant->institution); ?>'
                                                     )"
                                                     data-bs-toggle="tooltip" 
                                                     title="Lihat QR Code">
                                                 <i class="bi bi-qr-code"></i>
                                             </button>
-                                            <a href="{{ route('participants.id-card', $participant) }}" 
+                                            <a href="<?php echo e(route('participants.id-card', $participant)); ?>" 
                                                 class="btn btn-outline-warning"
                                                 data-bs-toggle="tooltip" 
                                                 title="ID Card"
@@ -284,7 +286,7 @@
                                                  <i class="bi bi-person-badge"></i>
                                             </a>
                                             <button class="btn btn-outline-danger" 
-                                                    onclick="confirmDelete({{ $participant->id }}, '{{ $participant->name }}')"
+                                                    onclick="confirmDelete(<?php echo e($participant->id); ?>, '<?php echo e($participant->name); ?>')"
                                                     data-bs-toggle="tooltip" 
                                                     title="Hapus Peserta">
                                                 <i class="bi bi-trash"></i>
@@ -292,7 +294,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @empty
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <tr>
                                     <!-- PERBAIKAN: colspan diubah dari 8 menjadi 11 -->
                                     <td colspan="11" class="text-center py-5">
@@ -300,32 +302,33 @@
                                             <i class="bi bi-people display-4 d-block mb-3"></i>
                                             <h5>Belum ada peserta terdaftar</h5>
                                             <p class="mb-0">Tambahkan peserta baru untuk memulai sistem absensi.</p>
-                                            <a href="{{ route('participants.create') }}" class="btn btn-primary mt-3">
+                                            <a href="<?php echo e(route('participants.create')); ?>" class="btn btn-primary mt-3">
                                                 <i class="bi bi-plus-circle me-2"></i>
                                                 Tambah Peserta Pertama
                                             </a>
                                         </div>
                                     </td>
                                 </tr>
-                                @endforelse
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
                 
                 <!-- Pagination -->
-                @if($participants->hasPages())
+                <?php if($participants->hasPages()): ?>
                 <div class="card-footer bg-white border-0">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="text-muted">
-                            Menampilkan {{ $participants->firstItem() ?? 0 }} - {{ $participants->lastItem() ?? 0 }} dari {{ $participants->total() }} peserta
+                            Menampilkan <?php echo e($participants->firstItem() ?? 0); ?> - <?php echo e($participants->lastItem() ?? 0); ?> dari <?php echo e($participants->total()); ?> peserta
                         </div>
                         <nav>
-                            {{ $participants->links() }}
+                            <?php echo e($participants->links()); ?>
+
                         </nav>
                     </div>
                 </div>
-                @endif
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -354,8 +357,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                 <form id="deleteForm" method="POST">
-                    @csrf
-                    @method('DELETE')
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('DELETE'); ?>
                     <button type="submit" class="btn btn-danger">Hapus</button>
                 </form>
             </div>
@@ -498,9 +501,9 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 <script>
 // Search and Filter functionality
@@ -1017,4 +1020,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.sidebar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\ASVS\Desktop\lisa-absensi\PressGO\resources\views/participants/index.blade.php ENDPATH**/ ?>

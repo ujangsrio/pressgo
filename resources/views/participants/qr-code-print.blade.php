@@ -80,7 +80,7 @@
         </div>
         
         <div class="details">
-            <div><strong>NIM:</strong> {{ $participant->nim }}</div>
+            <div><strong>NIM / NISN:</strong> {{ $participant->nim }}</div>
             <div><strong>Institusi:</strong> {{ $participant->institution }}</div>
             <div><strong>Program:</strong> {{ $participant->program_type }}</div>
             <div><strong>Dibuat:</strong> {{ now()->format('d/m/Y H:i') }}</div>

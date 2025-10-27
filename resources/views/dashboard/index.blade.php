@@ -9,7 +9,7 @@
                 <div>
                     <h1 class="h3 fw-bold text-primary">
                         <i class="bi bi-speedometer2 me-2"></i>
-                        Dashboard Sistem Absensi
+                        Dashboard PressGO
                     </h1>
                     <p class="text-muted mb-0">Overview data absensi dan peserta secara real-time</p>
                 </div>

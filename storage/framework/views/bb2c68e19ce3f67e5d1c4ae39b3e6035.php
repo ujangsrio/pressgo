@@ -317,13 +317,13 @@
                                 <div class="alert alert-success">
                                     <i class="fas fa-check-circle fa-2x mb-2"></i>
                                     <h6>Absensi Selesai</h6>
-                                    <p class="mb-1">Check In: <?php echo e($todayAttendance->check_in); ?></p>
-                                    <p class="mb-0">Check Out: <?php echo e($todayAttendance->check_out); ?></p>
+                                    <p class="mb-1">Masuk: <?php echo e($todayAttendance->check_in); ?></p>
+                                    <p class="mb-0">Keluar: <?php echo e($todayAttendance->check_out); ?></p>
                                 </div>
                             <?php else: ?>
                                 <div class="alert alert-info">
                                     <i class="fas fa-clock fa-2x mb-2"></i>
-                                    <h6>Sudah Check In</h6>
+                                    <h6>Sudah Masuk</h6>
                                     <p class="mb-1">Waktu: <?php echo e($todayAttendance->check_in); ?></p>
                                     <p class="mb-0">
                                         Status: 
@@ -335,7 +335,7 @@
                                     </p>
                                 </div>
                                 <a href="<?php echo e(route('participant.attendance.scan')); ?>" class="btn btn-warning btn-sm w-100">
-                                    <i class="fas fa-sign-out-alt"></i> Check Out
+                                    <i class="fas fa-sign-out-alt"></i> Keluar
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -347,7 +347,7 @@
                                 <p class="mb-0">Anda belum melakukan absensi hari ini</p>
                             </div>
                             <a href="<?php echo e(route('participant.attendance.scan')); ?>" class="btn btn-success btn-sm w-100">
-                                <i class="fas fa-sign-in-alt"></i> Check In Sekarang
+                                <i class="fas fa-sign-in-alt"></i> Absen Sekarang
                             </a>
                         </div>
                     <?php endif; ?>
